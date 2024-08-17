@@ -5,7 +5,7 @@ type MessageItemProps = {
   message: Message;
 };
 
-export default function MessageItem(props: MessageItemProps) {
+export function MessageItem(props: MessageItemProps) {
   const { message } = props;
   const isFromUser = message.from === 'user';
 
@@ -18,8 +18,8 @@ export default function MessageItem(props: MessageItemProps) {
     >
       <div>
         <div
-          className={cn('inline-block py-2 px-4 text-sm', {
-            'rounded-full bg-gray-200': isFromUser,
+          className={cn('inline-block text-sm', {
+            'px-4 rounded-full bg-gray-200 py-2': isFromUser,
           })}
         >
           {message.text}

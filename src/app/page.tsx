@@ -1,10 +1,11 @@
 'use client';
 
 import { Message } from '@/domains/entities/message';
-import MessageItem from '@/features/home/components/MessageItem';
-import { useState } from 'react';
+import { MessageItem } from '@/components/MessageItem';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
+import { chat } from '@/actions/chat';
 
 type FormValues = {
   text: string;
@@ -14,12 +15,12 @@ export default function Home() {
   const form = useForm<FormValues>();
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const handleSubmit = (data: FormValues) => {
+  const handleSubmit = async (data: FormValues) => {
     const { text } = data;
 
-    if (!text) return;
+    if (!text || form.formState.isSubmitting) return;
 
-    form.reset();
+    form.resetField('text');
 
     setMessages((prevMessages) => [
       ...prevMessages,
@@ -30,33 +31,52 @@ export default function Home() {
         from: 'user',
       },
     ]);
+
+    const res = await chat(text);
+    const content = res.data;
+
+    if (content) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          id: v4(),
+          text: content,
+          createdAt: new Date().toISOString(),
+          from: 'gpt',
+        },
+      ]);
+    }
   };
 
   return (
-    <div className="max-w-[500px] m-auto h-screen p-4 pb-8">
-      <div className="grid grid-rows-[auto_1fr_auto] h-full space-y-4">
-        <h1 className="text-3xl font-bold">Chatbot</h1>
-
-        <div className="space-y-2">
-          {messages
-            .sort(
-              (a, b) =>
-                new Date(a.createdAt).getTime() -
-                new Date(b.createdAt).getTime(),
-            )
-            .map((message) => (
-              <MessageItem key={message.id} message={message} />
-            ))}
+    <div className="space-y-4 grid grid-rows-[1fr_auto] h-screen">
+      <div className="overflow-auto">
+        <div className="max-w-[500px] w-full mx-auto space-y-2 p-8">
+          <div className="text-sm">
+            Hi! I&apos;m ChatGPT. How can I help you today?
+          </div>
+          {messages.map((message) => (
+            <MessageItem key={message.id} message={message} />
+          ))}
+          {form.formState.isSubmitting && (
+            <div className="text-sm">Loading...</div>
+          )}
         </div>
-
-        <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <input
-            {...form.register('text')}
-            name="text"
-            className="w-full py-3 px-6 rounded-full bg-gray-100"
-          />
-        </form>
       </div>
+
+      {JSON.stringify(form.formState.isSubmitting)}
+
+      <form
+        className="max-w-[500px] w-full p-8 pt-0 mx-auto"
+        onSubmit={form.handleSubmit(handleSubmit)}
+      >
+        <input
+          {...form.register('text')}
+          name="text"
+          placeholder="Message ChatGPT"
+          className="py-3 px-6 rounded-full w-full bg-gray-100"
+        />
+      </form>
     </div>
   );
 }
