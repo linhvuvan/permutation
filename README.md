@@ -1,6 +1,6 @@
 ## Getting Started
 
-- Copy `.env.example` file and rename it to `.env.local`. Fill out all values
+- Duplicate `.env.example` file and rename it to `.env.local`. Fill out all values
 
 - Run the development server:
 
