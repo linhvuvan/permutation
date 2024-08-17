@@ -1,6 +1,6 @@
 ## Getting Started
 
-- Add `OPENAI_API_KEY=` to `.env.local` file
+- Copy `.env.example` file and rename it to `.env.local`. Fill out all values
 
 - Run the development server:
 
