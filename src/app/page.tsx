@@ -11,6 +11,8 @@ type FormValues = {
   text: string;
 };
 
+export const maxDuration = 60; // Applies to the actions
+
 export default function Home() {
   const form = useForm<FormValues>();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -43,7 +45,8 @@ export default function Home() {
     scrollToBottom();
 
     const res = await chat(newMessages);
-    const message = res.data || 'Sorry, We are unable to process your request.';
+    const message =
+      res?.data || 'Sorry, We are unable to process your request.';
 
     setMessages((prevMessages) => [
       ...prevMessages,
