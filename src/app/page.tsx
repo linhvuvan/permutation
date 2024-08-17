@@ -57,32 +57,32 @@ export default function Home() {
   };
 
   return (
-    <div className="space-y-4 grid grid-rows-[1fr_auto] h-screen">
-      <div className="overflow-auto">
-        <div className="max-w-[550px] w-full mx-auto space-y-2 p-8">
-          <div className="text-sm">
-            Hi! I&apos;m ChatGPT. How can I help you today?
-          </div>
-          {messages.map((message) => (
-            <MessageItem key={message.id} message={message} />
-          ))}
-          {isLoading && <div className="text-sm">Loading...</div>}
-          <div ref={ref} />
+    <>
+      <div className="max-w-[550px] w-full mx-auto space-y-2 p-8 pb-28">
+        <div className="text-sm">
+          Hi! I&apos;m ChatGPT. How can I help you today?
         </div>
+        {messages.map((message) => (
+          <MessageItem key={message.id} message={message} />
+        ))}
+        {isLoading && <div className="text-sm">Loading...</div>}
+        <div ref={ref} />
       </div>
 
-      <form
-        className="max-w-[550px] w-full p-8 pt-0 mx-auto"
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
-        <input
-          {...form.register('text')}
-          name="text"
-          autoFocus
-          placeholder="Message ChatGPT"
-          className="text-sm py-3 px-6 rounded-full w-full bg-gray-100"
-        />
-      </form>
-    </div>
+      <div className="fixed bottom-0 w-full bg-white">
+        <form
+          className="max-w-[550px] m-auto p-8"
+          onSubmit={form.handleSubmit(handleSubmit)}
+        >
+          <input
+            {...form.register('text')}
+            name="text"
+            autoFocus
+            placeholder="Message ChatGPT"
+            className="text-sm py-3 px-6 rounded-full w-full bg-gray-100"
+          />
+        </form>
+      </div>
+    </>
   );
 }
