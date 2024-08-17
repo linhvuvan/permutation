@@ -18,7 +18,9 @@ export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      ref.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   const handleSubmit = async (data: FormValues) => {
@@ -38,7 +40,7 @@ export default function Home() {
     ];
     setMessages(newMessages);
     setIsLoading(true);
-    setTimeout(scrollToBottom, 100);
+    scrollToBottom();
 
     const res = await chat(newMessages);
     const message = res.data || 'Sorry, We are unable to process your request.';
@@ -53,7 +55,7 @@ export default function Home() {
     ]);
 
     setIsLoading(false);
-    setTimeout(scrollToBottom, 100);
+    scrollToBottom();
   };
 
   return (
