@@ -11,7 +11,7 @@ type FormValues = {
   text: string;
 };
 
-export const maxDuration = 1; // Applies to the actions
+export const maxDuration = 60; // Applies to the actions
 
 export default function Home() {
   const form = useForm<FormValues>();
