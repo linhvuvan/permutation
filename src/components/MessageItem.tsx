@@ -11,7 +11,6 @@ export function MessageItem(props: MessageItemProps) {
 
   return (
     <div
-      key={message.id}
       className={cn({
         'text-end': isFromUser,
       })}
