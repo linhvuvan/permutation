@@ -26,7 +26,7 @@ export default function Home() {
   const handleSubmit = async (data: FormValues) => {
     const { text } = data;
 
-    if (!text || isLoading) return;
+    if (!text || !text.trim() || isLoading) return;
 
     form.resetField('text');
 
