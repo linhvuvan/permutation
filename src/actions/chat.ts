@@ -27,6 +27,7 @@ export const chat = async (messages: Message[]) => {
     };
   } catch (error) {
     console.error(error);
+
     return {
       error: 'An error occurred while processing the request',
     };
