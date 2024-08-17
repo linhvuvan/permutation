@@ -1,6 +1,6 @@
 'use server';
 
-import { Message } from '@/domains/entities/message';
+import { Message } from '@/domain/entities/message';
 import { OPENAI_API_KEY } from '@/utils/env';
 import { OpenAI } from 'openai';
 

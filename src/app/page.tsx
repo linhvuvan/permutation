@@ -1,6 +1,6 @@
 'use client';
 
-import { Message } from '@/domains/entities/message';
+import { Message } from '@/domain/entities/message';
 import { MessageItem } from '@/components/MessageItem';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';

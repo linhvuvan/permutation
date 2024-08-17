@@ -1,4 +1,4 @@
-import { Message } from '@/domains/entities/message';
+import { Message } from '@/domain/entities/message';
 import { cn } from '@/utils';
 
 type MessageItemProps = {
