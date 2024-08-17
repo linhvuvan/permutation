@@ -1,34 +1,43 @@
-import MessageItem from '@/features/home/components/MessageItem';
+'use client';
 
-export type Message = {
-  id: string;
+import { Message } from '@/domains/entities/message';
+import MessageItem from '@/features/home/components/MessageItem';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { v4 } from 'uuid';
+
+type FormValues = {
   text: string;
-  createdAt: string;
-  from: 'gpt' | 'user';
 };
 
 export default function Home() {
-  const messages: Message[] = [
-    {
-      id: '1',
-      text: 'Hello!',
-      createdAt: '2021-10-02T00:00:00Z',
-      from: 'gpt',
-    },
-    {
-      id: '2',
-      text: 'Hi!',
-      createdAt: '2021-10-01T00:00:01Z',
-      from: 'user',
-    },
-  ];
+  const form = useForm<FormValues>();
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const handleSubmit = (data: FormValues) => {
+    const { text } = data;
+
+    if (!text) return;
+
+    form.reset();
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        id: v4(),
+        text,
+        createdAt: new Date().toISOString(),
+        from: 'user',
+      },
+    ]);
+  };
 
   return (
     <div className="max-w-[500px] m-auto h-screen p-4 pb-8">
       <div className="grid grid-rows-[auto_1fr_auto] h-full space-y-4">
         <h1 className="text-3xl font-bold">Chatbot</h1>
 
-        <div>
+        <div className="space-y-2">
           {messages
             .sort(
               (a, b) =>
@@ -40,7 +49,13 @@ export default function Home() {
             ))}
         </div>
 
-        <div>Input</div>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <input
+            {...form.register('text')}
+            name="text"
+            className="w-full py-3 px-6 rounded-full bg-gray-100"
+          />
+        </form>
       </div>
     </div>
   );

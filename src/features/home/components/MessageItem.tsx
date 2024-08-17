@@ -1,4 +1,4 @@
-import { Message } from '@/app/page';
+import { Message } from '@/domains/entities/message';
 import { cn } from '@/utils';
 
 type MessageItemProps = {
@@ -18,7 +18,7 @@ export default function MessageItem(props: MessageItemProps) {
     >
       <div>
         <div
-          className={cn('inline-block py-2 px-4', {
+          className={cn('inline-block py-2 px-4 text-sm', {
             'rounded-full bg-gray-200': isFromUser,
           })}
         >
