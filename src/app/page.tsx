@@ -2,7 +2,7 @@
 
 import { Message } from '@/domains/entities/message';
 import { MessageItem } from '@/components/MessageItem';
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 import { chat } from '@/actions/chat';
@@ -14,38 +14,46 @@ type FormValues = {
 export default function Home() {
   const form = useForm<FormValues>();
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const handleSubmit = async (data: FormValues) => {
     const { text } = data;
 
-    if (!text || form.formState.isSubmitting) return;
+    if (!text || isLoading) return;
 
     form.resetField('text');
+
+    const newMessages: Message[] = [
+      ...messages,
+      {
+        id: v4(),
+        text,
+        from: 'user',
+      },
+    ];
+    setMessages(newMessages);
+    setIsLoading(true);
+    setTimeout(scrollToBottom, 100);
+
+    const res = await chat(newMessages);
+    const message = res.data || 'Sorry, We are unable to process your request.';
 
     setMessages((prevMessages) => [
       ...prevMessages,
       {
         id: v4(),
-        text,
-        createdAt: new Date().toISOString(),
-        from: 'user',
+        text: message,
+        from: 'assistant',
       },
     ]);
 
-    const res = await chat(text);
-    const content = res.data;
-
-    if (content) {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          id: v4(),
-          text: content,
-          createdAt: new Date().toISOString(),
-          from: 'gpt',
-        },
-      ]);
-    }
+    setIsLoading(false);
+    setTimeout(scrollToBottom, 100);
   };
 
   return (
@@ -58,13 +66,10 @@ export default function Home() {
           {messages.map((message) => (
             <MessageItem key={message.id} message={message} />
           ))}
-          {form.formState.isSubmitting && (
-            <div className="text-sm">Loading...</div>
-          )}
+          {isLoading && <div className="text-sm">Loading...</div>}
+          <div ref={ref} />
         </div>
       </div>
-
-      {JSON.stringify(form.formState.isSubmitting)}
 
       <form
         className="max-w-[500px] w-full p-8 pt-0 mx-auto"
@@ -73,8 +78,9 @@ export default function Home() {
         <input
           {...form.register('text')}
           name="text"
+          autoFocus
           placeholder="Message ChatGPT"
-          className="py-3 px-6 rounded-full w-full bg-gray-100"
+          className="text-sm py-3 px-6 rounded-full w-full bg-gray-100"
         />
       </form>
     </div>
