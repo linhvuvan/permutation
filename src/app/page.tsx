@@ -59,7 +59,7 @@ export default function Home() {
   return (
     <div className="space-y-4 grid grid-rows-[1fr_auto] h-screen">
       <div className="overflow-auto">
-        <div className="max-w-[500px] w-full mx-auto space-y-2 p-8">
+        <div className="max-w-[550px] w-full mx-auto space-y-2 p-8">
           <div className="text-sm">
             Hi! I&apos;m ChatGPT. How can I help you today?
           </div>
@@ -72,7 +72,7 @@ export default function Home() {
       </div>
 
       <form
-        className="max-w-[500px] w-full p-8 pt-0 mx-auto"
+        className="max-w-[550px] w-full p-8 pt-0 mx-auto"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <input
