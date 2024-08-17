@@ -9,17 +9,27 @@ const client = new OpenAI({
 });
 
 export const chat = async (messages: Message[]) => {
-  const chatCompletion = await client.chat.completions.create({
-    messages: messages.map(({ text, from }) => ({
-      role: from,
-      content: text,
-    })),
-    model: 'gpt-4',
-  });
+  try {
+    const chatCompletion = await client.chat.completions.create({
+      messages: messages.map(({ text, from }) => ({
+        role: from,
+        content: text,
+      })),
+      model: 'gpt-4',
+    });
 
-  const { choices } = chatCompletion;
-  const [{ message }] = choices;
-  const { content } = message;
+    const { choices } = chatCompletion;
+    const [{ message }] = choices;
+    const { content } = message;
 
-  return content || undefined;
+    return {
+      data: content || undefined,
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      error: 'An error occurred while processing the request',
+    };
+  }
 };
