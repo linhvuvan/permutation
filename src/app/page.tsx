@@ -6,12 +6,11 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 import { chat } from '@/actions/chat';
+import { neverthrow } from '@/utils/neverthrow';
 
 type FormValues = {
   text: string;
 };
-
-export const maxDuration = 60; // Applies to the actions
 
 export default function Home() {
   const form = useForm<FormValues>();
@@ -44,9 +43,8 @@ export default function Home() {
     setIsLoading(true);
     scrollToBottom();
 
-    const res = await chat(newMessages);
-    const message =
-      res?.data || 'Sorry, We are unable to process your request.';
+    const res = await neverthrow(chat(newMessages));
+    const message = res.data || 'Sorry, We are unable to process your request.';
 
     setMessages((prevMessages) => [
       ...prevMessages,
