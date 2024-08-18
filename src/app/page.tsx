@@ -80,6 +80,7 @@ export default function Home() {
           <input
             {...form.register('text')}
             name="text"
+            autoFocus
             placeholder="Message ChatGPT"
             className="py-3 px-6 rounded-full w-full bg-gray-100"
           />
