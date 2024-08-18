@@ -63,7 +63,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="max-w-[550px] w-full mx-auto space-y-2 px-4 pb-24 pt-8">
+      <div className="max-w-[550px] w-full mx-auto space-y-3 px-4 pb-24 pt-8">
         <div>Hi! I&apos;m ChatGPT. How can I help you today?</div>
         {messages.map((message) => (
           <MessageItem key={message.id} message={message} />
@@ -74,13 +74,12 @@ export default function Home() {
 
       <div className="fixed bottom-0 w-full bg-white">
         <form
-          className="max-w-[550px] mx-auto px-4 py-4"
+          className="max-w-[550px] mx-auto px-4 py-8"
           onSubmit={form.handleSubmit(handleSubmit)}
         >
           <input
             {...form.register('text')}
             name="text"
-            autoFocus
             placeholder="Message ChatGPT"
             className="py-3 px-6 rounded-full w-full bg-gray-100"
           />
