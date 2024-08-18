@@ -63,7 +63,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="max-w-[550px] w-full mx-auto space-y-3 px-4 pb-24 pt-8">
+      <div className="max-w-[550px] w-full mx-auto space-y-3 px-4 pb-28 pt-8">
         <div>Hi! I&apos;m ChatGPT. How can I help you today?</div>
         {messages.map((message) => (
           <MessageItem key={message.id} message={message} />
