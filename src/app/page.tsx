@@ -63,20 +63,18 @@ export default function Home() {
 
   return (
     <>
-      <div className="max-w-[550px] w-full mx-auto space-y-2 p-8 pb-28">
-        <div className="text-sm">
-          Hi! I&apos;m ChatGPT. How can I help you today?
-        </div>
+      <div className="max-w-[550px] w-full mx-auto space-y-2 px-2 pb-24 pt-8">
+        <div>Hi! I&apos;m ChatGPT. How can I help you today?</div>
         {messages.map((message) => (
           <MessageItem key={message.id} message={message} />
         ))}
-        {isLoading && <div className="text-sm">Loading...</div>}
+        {isLoading && <div>Loading...</div>}
         <div ref={ref} />
       </div>
 
       <div className="fixed bottom-0 w-full bg-white">
         <form
-          className="max-w-[550px] m-auto p-8"
+          className="max-w-[550px] mx-auto px-2 py-4"
           onSubmit={form.handleSubmit(handleSubmit)}
         >
           <input
@@ -84,7 +82,7 @@ export default function Home() {
             name="text"
             autoFocus
             placeholder="Message ChatGPT"
-            className="text-sm py-3 px-6 rounded-full w-full bg-gray-100"
+            className="py-3 px-6 rounded-full w-full bg-gray-100"
           />
         </form>
       </div>
